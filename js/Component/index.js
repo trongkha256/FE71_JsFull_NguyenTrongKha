@@ -1,5 +1,8 @@
 let employeeList = [];
 const createEmployee = function () {
+    if (!validation()) {
+        return;
+    }
     const tk = document.getElementById("tknv").value;
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -138,16 +141,68 @@ var mapData = function (dataFromLocal) {
     return data;
 }
 getData();
+
+
+
+// Validation:
+var validation = function () {
+    var isTrue = true
+    var id = document.getElementById('tknv').value;
+    isTrue &= require(id, "tbTKNV") && lengthString(id, "tbTKNV", 4, 6)
+    var name = document.getElementById('name').value;
+    var textPattern = /^[A-z ]+$/g;
+    isTrue &= require(name, "tbTen") && pattern(name, 'tbTen', textPattern)
+    var email = document.getElementById('email').value;
+    var emailPattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    isTrue &= require(email, "tbEmail") && pattern(email, 'tbEmail', emailPattern)
+    var password = document.getElementById('password').value;
+    var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/;
+    isTrue &= require(password, "tbMatKhau") && lengthString(password, "tbMatKhau", 6, 10) && pattern(password, "tbMatKhau", passwordPattern);
+    var date = document.getElementById("datepicker").value;
+    isTrue &= require(date, "tbNgay");
+    var chucvu = document.getElementById("chucvu").value;
+    isTrue &= nameC(chucvu, "tbChucVu");
+    var luong = +document.getElementById("luongCB").value;
+    isTrue &= require(luong, "tbLuongCB") && number(luong, "tbLuongCB", 1000000, 2000000)
+    var time = +document.getElementById("gioLam").value;
+    isTrue &= require(time, "tbGiolam") && number(time, "tbGiolam", 80, 200);
+    return isTrue
+}
+
 const require = function (val, spanID) {
-    if (val.length === 0) {
-        document.getElementById("spanId").innerHTML = `* Trường hợp này bắt buộc nhập`;
+    if (!val) {
+        document.getElementById(spanID).innerHTML = `* Trường hợp này bắt buộc nhập!`;
         return false
     }
     return true;
 }
-const lenghString = function (val, spanId, min, max) {
+const lengthString = function (val, spanId, min, max) {
     if (val.length < min || val.length > max) {
-        document.getElementById("spanId").innerHTML = `* Độ dài phải từ ${min} đến ${max}`;
+        document.getElementById(spanId).innerHTML = `* Độ dài phải từ ${min} đến ${max}`;
+        return false
+    }
+    return true;
+}
+var pattern = function (val, spanID, regex) {
+    if (!regex.test(val)) {
+        document.getElementById(spanID).innerHTML = "* Không đúng định dạng!";
+        return false
+
+    }
+    document.getElementById(spanID).innerHTML = ""
+    return true;
+}
+var nameC = function (val, spanID) {
+    if (val != "Sếp" && val != "Trưởng phòng" && val != "Nhân viên") {
+        document.getElementById(spanID).innerHTML = "* Chức vụ không hợp lệ!";
+        return false
+    }
+    document.getElementById(spanID).innerHTML = ""
+    return true;
+}
+var number = function (val, spanID, min, max) {
+    if (val < min || val > max) {
+        document.getElementById(spanId).innerHTML = `*Giá trị phải từ ${min} đến ${max}`;
         return false
     }
     return true;
