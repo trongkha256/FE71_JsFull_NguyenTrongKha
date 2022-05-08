@@ -1,4 +1,4 @@
-const Employee = (tk, name, email, password, dob, luongCB, chucvu, giolam) => {
+function Employee(tk, name, email, password, dob, luongCB, chucvu, giolam) {
     this.tk = tk;
     this.name = name;
     this.email = email;
@@ -7,14 +7,14 @@ const Employee = (tk, name, email, password, dob, luongCB, chucvu, giolam) => {
     this.luongCB = luongCB;
     this.chucvu = chucvu;
     this.giolam = giolam;
-    const calSalary = () => {
-        if (this.chucvu === "Sếp")
+    this.calSalary = function () {
+        if (this.chucvu == "Sếp")
             return this.luongCB * 3;
-        else if (this.chucvu === "Trưởng phòng")
+        else if (this.chucvu == "Trưởng phòng")
             return this.luongCB * 2
         return this.luongCB
     }
-    const graduate = () => {
+    this.graduate = function () {
         if (this.giolam >= 192)
             return "Xuất Sắc"
         else if (this.giolam >= 176)
@@ -24,3 +24,4 @@ const Employee = (tk, name, email, password, dob, luongCB, chucvu, giolam) => {
         return "Trung Bình"
     }
 }
+
