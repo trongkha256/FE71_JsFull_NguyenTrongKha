@@ -79,6 +79,17 @@ const findAccount = function (acc) {
     }
     return -1;
 }
+const searchEmployee = function () {
+    let type = document.getElementById("searchName").value.toLowerCase().trim();
+    let result = []
+    for (let i = 0; i < employeeList.length; i++) {
+        let employeeType = employeeList[i].graduate().toLowerCase();
+        if (type === employeeType || employeeType.includes(type)) {
+            result.push(employeeList[i]);
+        }
+    }
+    renderEmployee(result)
+}
 const renderEmployee = function (data) {
     data = data || employeeList;
     var dataHTML = ""
@@ -127,3 +138,17 @@ var mapData = function (dataFromLocal) {
     return data;
 }
 getData();
+const require = function (val, spanID) {
+    if (val.length === 0) {
+        document.getElementById("spanId").innerHTML = `* Trường hợp này bắt buộc nhập`;
+        return false
+    }
+    return true;
+}
+const lenghString = function (val, spanId, min, max) {
+    if (val.length < min || val.length > max) {
+        document.getElementById("spanId").innerHTML = `* Độ dài phải từ ${min} đến ${max}`;
+        return false
+    }
+    return true;
+}
