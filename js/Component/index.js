@@ -49,6 +49,9 @@ const getEmployee = function (acc) {
     document.getElementById('tknv').disabled = true;
 }
 const updateEmployee = function () {
+    if (!validation()) {
+        return;
+    }
     const tk = document.getElementById("tknv").value;
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
